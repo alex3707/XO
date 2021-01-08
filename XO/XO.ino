@@ -9,14 +9,12 @@
 #define BTN7 9 // кнопка к пину 9
 #define BTN8 10 // кнопка к пину 10
 #define BTN9 11 // кнопка к пину 11
-#define BTN10 A5 // для сброса игры
-
+#define BTN10 7 // для сброса игры
 byte myMatrix[][3] = { //нулевая матрица для проверки х  заполняется 1 0 - 2
   {0, 0, 0},
   {0, 0, 0},
   {0, 0, 0},
 };
-
 #include "GyverButton.h" // подключение библиотеки кнопок 
 #define COLOR_DEBTH 2
 #include <microLED.h>
@@ -51,6 +49,19 @@ void setup() {
 }
 
 void loop() {
+    if (butt10.isSingle()){
+     matrix.clear();
+     pole();
+     myMatrix[0][0] = 0;
+     myMatrix[0][1] = 0;
+     myMatrix[0][2] = 0;
+     myMatrix[1][0] = 0;
+     myMatrix[1][1] = 0;
+     myMatrix[1][2] = 0;
+     myMatrix[2][0] = 0;
+     myMatrix[2][1] = 0;
+     myMatrix[2][2] = 0;
+  }
   butt1.tick();
   butt2.tick();
   butt3.tick();
@@ -61,17 +72,24 @@ void loop() {
   butt8.tick();
   butt9.tick();
   butt10.tick();
-  
   OO();
-  
-     
-      
+  game();  
 }
+
 
 
 void pole(){
       matrix.drawBitmap16(0, 0, poleXO, 16, 16);
       matrix.show();
+     myMatrix[0][0] = 0;
+     myMatrix[0][1] = 0;
+     myMatrix[0][2] = 0;
+     myMatrix[1][0] = 0;
+     myMatrix[1][1] = 0;
+     myMatrix[1][2] = 0;
+     myMatrix[2][0] = 0;
+     myMatrix[2][1] = 0;
+     myMatrix[2][2] = 0;
 }
 
 void OO(){
@@ -81,136 +99,136 @@ void OO(){
         matrix.drawBitmap16(1, 1, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 1");
-        butt1.setTimeout(15000);
+        //butt1.setTimeout(15000);
         myMatrix[2][0] = 1;
-        game();
+        //game();
         }
   else if (butt1.isDouble()) {
         matrix.drawBitmap16(1, 1, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 1");
-        butt1.setTimeout(15000);
+        //butt1.setTimeout(15000);
         myMatrix[2][0] = 2;
-        game();
+        //game();
         }
 //------------обработка нажатия второй кнопки для второго квадрата-------------
   else if (butt2.isSingle()) {
         matrix.drawBitmap16(6, 1, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 2");
-        butt2.setTimeout(15000);
+        //butt2.setTimeout(15000);
         myMatrix[2][1] = 1;
-        game();
+        //game();
         }
   else if (butt2.isDouble()) {
         matrix.drawBitmap16(6, 1, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 2");
-        butt2.setTimeout(15000);
+        //butt2.setTimeout(15000);
         myMatrix[2][1] = 2;
-        game();
+        //game();
         }
 //------------обработка нажатия 3-ей кнопки для 3-его квадрата-------------
   else if (butt3.isSingle()) {
         matrix.drawBitmap16(11, 1, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 3");
-        butt3.setTimeout(15000);
+        //butt3.setTimeout(15000);
         myMatrix[2][2] = 1;
-        game();
+        //game();
         }
   else if (butt3.isDouble()) {
         matrix.drawBitmap16(11, 1, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 3");
-        butt3.setTimeout(15000);
+        //butt3.setTimeout(15000);
         myMatrix[2][2] = 2;
-        game();
+        //game();
         }
   //------------обработка нажатия 4-ой кнопки для 4-ого квадрата-------------     
   else if (butt4.isSingle()) {
         matrix.drawBitmap16(1, 6, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 4");
-        butt4.setTimeout(15000);
+        //butt4.setTimeout(15000);
         myMatrix[1][0] = 1;
-        game();
+        //game();
         }
   else if (butt4.isDouble()) {
         matrix.drawBitmap16(1, 6, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 4");
-        butt4.setTimeout(15000);
+        //butt4.setTimeout(15000);
         myMatrix[1][0] = 2;
-        game();
+        //game();
         }
 //------------обработка нажатия 5-ей кнопки для 5-ого квадрата-------------
   else if (butt5.isSingle()) {
         matrix.drawBitmap16(6, 6, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 5");
-        butt5.setTimeout(15000);
+        //butt5.setTimeout(15000);
         myMatrix[1][1] = 1;
-        game();
+       //game();
         }
   else if (butt5.isDouble()) {
         matrix.drawBitmap16(6, 6, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 5");
-        butt5.setTimeout(15000);
+        //butt5.setTimeout(15000);
         myMatrix[1][1] = 2;
-        game();
+        //game();
         }
 //------------обработка нажатия 6-ой кнопки для 6-ого квадрата-------------  
   else if (butt6.isSingle()){
         matrix.drawBitmap16(11, 6, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 6");
-        butt6.setTimeout(15000);
+       // butt6.setTimeout(15000);
         myMatrix[1][2] = 1;
-        game();
+        //game();
         }
   else if (butt6.isDouble()){
         matrix.drawBitmap16(11, 6, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 6");
-        butt6.setTimeout(15000);
+        //butt6.setTimeout(15000);
         myMatrix[1][2] = 2;
-        game();
+        //game();
         }
 //------------обработка нажатия 7-ой кнопки для 7-ого квадрата-------------  
   else if (butt7.isSingle()) {
         matrix.drawBitmap16(1, 11, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 7");
-        butt7.setTimeout(15000);
+        //butt7.setTimeout(15000);
         myMatrix[0][0] = 1;
-        game();
+        //game();
         }
   else if (butt7.isDouble()) {
         matrix.drawBitmap16(1, 11, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 7");
-        butt7.setTimeout(15000);
+        //butt7.setTimeout(15000);
         myMatrix[0][0] = 2;
-        game();
+        //game();
         }
 //------------обработка нажатия 8-ой кнопки для 8-ого квадрата------------- 
   else if (butt8.isSingle()) {
         matrix.drawBitmap16(6, 11, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 8");
-        butt8.setTimeout(15000);
+        //butt8.setTimeout(15000);
         myMatrix[0][1] = 1;
-        game();
+        //game();
         }
   else if (butt8.isDouble()) {
         matrix.drawBitmap16(6, 11, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 8");
-        butt8.setTimeout(15000);
+        //butt8.setTimeout(15000);
         myMatrix[0][1] = 2;
-        game();
+        //game();
         }
 
 //------------обработка нажатия 9-ой кнопки для 9-ого квадрата------------- 
@@ -218,39 +236,36 @@ void OO(){
         matrix.drawBitmap16(11, 11, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 9");
-        butt9.setTimeout(15000);
+        //butt9.setTimeout(15000);
         myMatrix[0][2] = 1;
-        game();
+        //game();
         }
   else if (butt9.isDouble()) {
         matrix.drawBitmap16(11, 11, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 9");
-        butt9.setTimeout(15000);
+        //butt9.setTimeout(15000);
         myMatrix[0][2] = 2;
-        game();
-        }
-  else if (butt10.isTriple()){
-        matrix.clear();
-        delay(200);
-        pole();
+        //game();
         }
 }
 // игровая логика
 void game(){
   if (myMatrix[0][0] == 1 && myMatrix[0][1] == 1 && myMatrix[0][2] == 1 || myMatrix[1][0] == 1 && myMatrix[1][1] == 1 && myMatrix[1][2] == 1 || myMatrix[2][0] == 1 && myMatrix[2][1] == 1 && myMatrix[2][2] == 1 || myMatrix[0][0] == 1 && myMatrix[1][0] == 1 && myMatrix[2][0] == 1 || myMatrix[0][1] == 1 && myMatrix[1][1] == 1 && myMatrix[2][1] == 1 || myMatrix[0][2] == 1 && myMatrix[1][2] == 1 && myMatrix[2][2] == 1 || myMatrix[0][0] == 1 && myMatrix[1][1] == 1 && myMatrix[2][2] == 1 ||myMatrix[0][2] == 1 && myMatrix[1][1] == 1 && myMatrix[2][0] == 1){
-     delay (700);
+     delay (400);
      matrix.clear();
      matrix.drawBitmap16(0, 0, polex1vine, 16, 16);
      matrix.show();
-     //delay (2000);
-     //pole();
+     delay(1500);
+     pole();
      }
   else if (myMatrix[0][0] == 2 && myMatrix[0][1] == 2 && myMatrix[0][2] == 2 || myMatrix[1][0] == 2 && myMatrix[1][1] == 2 && myMatrix[1][2] == 2 || myMatrix[2][0] == 2 && myMatrix[2][1] == 2 && myMatrix[2][2] == 2 || myMatrix[0][0] == 2 && myMatrix[1][0] == 2 && myMatrix[2][0] == 2 || myMatrix[0][1] == 2 && myMatrix[1][1] == 2 && myMatrix[2][1] == 2 || myMatrix[0][2] == 2 && myMatrix[1][2] == 2 && myMatrix[2][2] == 2 || myMatrix[0][0] == 2 && myMatrix[1][1] == 2 && myMatrix[2][2] == 2 ||myMatrix[0][2] == 2 && myMatrix[1][1] == 2 && myMatrix[2][0] == 2){
-     delay (700);
+     delay (400);
      matrix.clear();
      matrix.drawBitmap16(0, 0, polexovine, 16, 16);
      matrix.show();
+     delay(1500);
+     pole();
         }
 
 }
