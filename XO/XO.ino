@@ -9,6 +9,7 @@
 #define BTN7 9 // кнопка к пину 9
 #define BTN8 10 // кнопка к пину 10
 #define BTN9 11 // кнопка к пину 11
+#define BTN10 A5 // для сброса игры
 
 byte myMatrix[][3] = { //нулевая матрица для проверки х  заполняется 1 0 - 2
   {0, 0, 0},
@@ -29,6 +30,8 @@ GButton butt6(BTN6); // объект кнопки и отслеживания
 GButton butt7(BTN7); // объект кнопки и отслеживания
 GButton butt8(BTN8); // объект кнопки и отслеживания
 GButton butt9(BTN9); // объект кнопки и отслеживания
+GButton butt10(BTN10); // для сброса
+
 
 void setup() {
       butt1.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
@@ -40,10 +43,7 @@ void setup() {
       butt7.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
       butt8.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
       butt9.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
-      
-      
-
-
+      butt10.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
       Serial.begin(9600);
       matrix.clear();
       matrix.setBrightness(50);
@@ -60,9 +60,10 @@ void loop() {
   butt7.tick();
   butt8.tick();
   butt9.tick();
+  butt10.tick();
+  
   OO();
-  //matrix.set(0, 7, mPurple);
-  //matrix.set(7, 0, mTeal);
+  
      
       
 }
@@ -70,32 +71,17 @@ void loop() {
 
 void pole(){
       matrix.drawBitmap16(0, 0, poleXO, 16, 16);
-      
-      
-      //
-      //
-     // matrix.drawBitmap16(6, 6, poleo1, 4, 4);
-     // matrix.drawBitmap16(6, 11, poleo1, 4, 4);
-     // matrix.drawBitmap16(11, 6, poleo1, 4, 4);
-     // matrix.drawBitmap16(11, 11, poleo1, 4, 4);
-      
-      //matrix.drawBitmap16(6, 1, polex1, 4, 4);
-      //matrix.set(1, 1, mYellow);
-      //matrix.set(1, 2, mYellow);
-      //matrix.set(1, 3, mYellow);
-      //matrix.set(1, 4, mYellow);
       matrix.show();
-     // delay(1000);
-     // matrix.clear();
 }
 
 void OO(){
+  
 //------------обработка нажатия первой кнопки для первого квадрата-------------
   if (butt1.isSingle()) {
         matrix.drawBitmap16(1, 1, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 1");
-        butt1.setTimeout(20000);
+        butt1.setTimeout(15000);
         myMatrix[2][0] = 1;
         game();
         }
@@ -103,7 +89,7 @@ void OO(){
         matrix.drawBitmap16(1, 1, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 1");
-        butt1.setTimeout(20000);
+        butt1.setTimeout(15000);
         myMatrix[2][0] = 2;
         game();
         }
@@ -112,6 +98,7 @@ void OO(){
         matrix.drawBitmap16(6, 1, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 2");
+        butt2.setTimeout(15000);
         myMatrix[2][1] = 1;
         game();
         }
@@ -119,6 +106,7 @@ void OO(){
         matrix.drawBitmap16(6, 1, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 2");
+        butt2.setTimeout(15000);
         myMatrix[2][1] = 2;
         game();
         }
@@ -127,6 +115,7 @@ void OO(){
         matrix.drawBitmap16(11, 1, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 3");
+        butt3.setTimeout(15000);
         myMatrix[2][2] = 1;
         game();
         }
@@ -134,7 +123,8 @@ void OO(){
         matrix.drawBitmap16(11, 1, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 3");
-        myMatrix[2][2] = 0;
+        butt3.setTimeout(15000);
+        myMatrix[2][2] = 2;
         game();
         }
   //------------обработка нажатия 4-ой кнопки для 4-ого квадрата-------------     
@@ -142,6 +132,7 @@ void OO(){
         matrix.drawBitmap16(1, 6, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 4");
+        butt4.setTimeout(15000);
         myMatrix[1][0] = 1;
         game();
         }
@@ -149,6 +140,7 @@ void OO(){
         matrix.drawBitmap16(1, 6, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 4");
+        butt4.setTimeout(15000);
         myMatrix[1][0] = 2;
         game();
         }
@@ -157,6 +149,7 @@ void OO(){
         matrix.drawBitmap16(6, 6, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 5");
+        butt5.setTimeout(15000);
         myMatrix[1][1] = 1;
         game();
         }
@@ -164,6 +157,7 @@ void OO(){
         matrix.drawBitmap16(6, 6, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 5");
+        butt5.setTimeout(15000);
         myMatrix[1][1] = 2;
         game();
         }
@@ -172,6 +166,7 @@ void OO(){
         matrix.drawBitmap16(11, 6, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 6");
+        butt6.setTimeout(15000);
         myMatrix[1][2] = 1;
         game();
         }
@@ -179,6 +174,7 @@ void OO(){
         matrix.drawBitmap16(11, 6, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 6");
+        butt6.setTimeout(15000);
         myMatrix[1][2] = 2;
         game();
         }
@@ -187,6 +183,7 @@ void OO(){
         matrix.drawBitmap16(1, 11, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 7");
+        butt7.setTimeout(15000);
         myMatrix[0][0] = 1;
         game();
         }
@@ -194,6 +191,7 @@ void OO(){
         matrix.drawBitmap16(1, 11, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 7");
+        butt7.setTimeout(15000);
         myMatrix[0][0] = 2;
         game();
         }
@@ -202,6 +200,7 @@ void OO(){
         matrix.drawBitmap16(6, 11, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 8");
+        butt8.setTimeout(15000);
         myMatrix[0][1] = 1;
         game();
         }
@@ -209,6 +208,7 @@ void OO(){
         matrix.drawBitmap16(6, 11, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 8");
+        butt8.setTimeout(15000);
         myMatrix[0][1] = 2;
         game();
         }
@@ -218,6 +218,7 @@ void OO(){
         matrix.drawBitmap16(11, 11, polex1, 4, 4);
         matrix.show();
         Serial.println("Button 9");
+        butt9.setTimeout(15000);
         myMatrix[0][2] = 1;
         game();
         }
@@ -225,11 +226,15 @@ void OO(){
         matrix.drawBitmap16(11, 11, poleo1, 4, 4);
         matrix.show();
         Serial.println("Button 9");
+        butt9.setTimeout(15000);
         myMatrix[0][2] = 2;
-        Serial.println(myMatrix[0][2]);
         game();
         }
-
+  else if (butt10.isTriple()){
+        matrix.clear();
+        delay(200);
+        pole();
+        }
 }
 // игровая логика
 void game(){
@@ -246,5 +251,6 @@ void game(){
      matrix.clear();
      matrix.drawBitmap16(0, 0, polexovine, 16, 16);
      matrix.show();
-}
+        }
+
 }
