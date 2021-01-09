@@ -1,5 +1,8 @@
 #define STRIP_PIN 2     // пин ленты
 #include "bitmap.h"
+#define M_WIDTH 16    // ширина матрицы
+#define M_HEIGHT 16    // высота матрицы
+#define NUM_LEDS (M_WIDTH * M_HEIGHT) // колличество диодов
 #define BTN1 A3 // кнопка к пину 3
 #define BTN2 4 // кнопка к пину 4
 #define BTN3 5 // кнопка к пину 5
@@ -18,7 +21,7 @@ byte myMatrix[][3] = { //нулевая матрица для проверки �
 #include "GyverButton.h" // подключение библиотеки кнопок 
 #define COLOR_DEBTH 2
 #include <microLED.h>
-microLED<16 * 16, STRIP_PIN, MLED_NO_CLOCK, LED_WS2812, ORDER_GRB, CLI_HIGH> matrix(16, 16, ZIGZAG, LEFT_TOP, DIR_DOWN);
+microLED<NUM_LEDS, STRIP_PIN, MLED_NO_CLOCK, LED_WS2812, ORDER_GRB, CLI_HIGH> matrix(M_WIDTH, M_HEIGHT, ZIGZAG, LEFT_TOP, DIR_DOWN);
 GButton butt1(BTN1); // объект кнопки и отслеживания
 GButton butt2(BTN2); // объект кнопки и отслеживания
 GButton butt3(BTN3); // объект кнопки и отслеживания
@@ -44,7 +47,7 @@ void setup() {
       butt10.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
       Serial.begin(9600);
       matrix.clear();
-      matrix.setBrightness(50);
+      matrix.setBrightness(100);
       pole();// рисуем поле
 }
 
@@ -250,22 +253,36 @@ void OO(){
         }
 }
 // игровая логика
+int X = 0, O = 0; // переменные для счета игры
 void game(){
   if (myMatrix[0][0] == 1 && myMatrix[0][1] == 1 && myMatrix[0][2] == 1 || myMatrix[1][0] == 1 && myMatrix[1][1] == 1 && myMatrix[1][2] == 1 || myMatrix[2][0] == 1 && myMatrix[2][1] == 1 && myMatrix[2][2] == 1 || myMatrix[0][0] == 1 && myMatrix[1][0] == 1 && myMatrix[2][0] == 1 || myMatrix[0][1] == 1 && myMatrix[1][1] == 1 && myMatrix[2][1] == 1 || myMatrix[0][2] == 1 && myMatrix[1][2] == 1 && myMatrix[2][2] == 1 || myMatrix[0][0] == 1 && myMatrix[1][1] == 1 && myMatrix[2][2] == 1 ||myMatrix[0][2] == 1 && myMatrix[1][1] == 1 && myMatrix[2][0] == 1){
+     X++;
      delay (400);
      matrix.clear();
      matrix.drawBitmap16(0, 0, polex1vine, 16, 16);
      matrix.show();
      delay(1500);
+     //matrix.clear();
+     //balls();
+     //matrix.show();
+     //delay(2000);
      pole();
      }
   else if (myMatrix[0][0] == 2 && myMatrix[0][1] == 2 && myMatrix[0][2] == 2 || myMatrix[1][0] == 2 && myMatrix[1][1] == 2 && myMatrix[1][2] == 2 || myMatrix[2][0] == 2 && myMatrix[2][1] == 2 && myMatrix[2][2] == 2 || myMatrix[0][0] == 2 && myMatrix[1][0] == 2 && myMatrix[2][0] == 2 || myMatrix[0][1] == 2 && myMatrix[1][1] == 2 && myMatrix[2][1] == 2 || myMatrix[0][2] == 2 && myMatrix[1][2] == 2 && myMatrix[2][2] == 2 || myMatrix[0][0] == 2 && myMatrix[1][1] == 2 && myMatrix[2][2] == 2 ||myMatrix[0][2] == 2 && myMatrix[1][1] == 2 && myMatrix[2][0] == 2){
+     O++;
      delay (400);
      matrix.clear();
      matrix.drawBitmap16(0, 0, polexovine, 16, 16);
      matrix.show();
      delay(1500);
+     //matrix.clear();
+     //balls();
+     //matrix.show();
+     //delay(2000);
      pole();
         }
+   // если результат ничейный
 
 }
+
+// Эффект для победы
