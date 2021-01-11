@@ -36,6 +36,7 @@ GButton butt10(BTN10); // для сброса
 
 
 void setup() {
+      matrix.setBrightness(value);
       butt1.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
       butt2.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
       butt3.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
@@ -48,12 +49,13 @@ void setup() {
       butt10.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
       Serial.begin(9600);
       matrix.clear();
-      matrix.setBrightness(value);
+      //matrix.setBrightness(value);
       pole();// рисуем поле
 }
 
 void loop() {
-    if (butt10.isSingle()){
+  
+  if (butt10.isSingle()){
      matrix.clear();
      pole();
      myMatrix[0][0] = 0;
@@ -66,6 +68,12 @@ void loop() {
      myMatrix[2][1] = 0;
      myMatrix[2][2] = 0;
   }
+  if (butt10.isDouble()) {                                
+     value=value+50;                                          
+     matrix.setBrightness(value);
+     matrix.show();                          
+  }  
+  
   butt1.tick();
   butt2.tick();
   butt3.tick();
@@ -77,12 +85,7 @@ void loop() {
   butt9.tick();
   butt10.tick();
   OO();
-  game();
-    if (butt10.isDouble()) {                                 // если кнопка была удержана (это для инкремента)
-    value=value+50;                                            // увеличивать/уменьшать переменную value с шагом и интервалом
-                                // для примера выведем в порт
-  }  
-   matrix.setBrightness(value); 
+  game();  
 }
 
 
@@ -262,7 +265,7 @@ void OO(){
         }
 }
 // игровая логика
-int X = 0, O = 0; // переменные для счета игры
+int X = 0, O = 0, Nich = 0;// переменные для счета игры
 void game(){
   if (myMatrix[0][0] == 1 && myMatrix[0][1] == 1 && myMatrix[0][2] == 1 || myMatrix[1][0] == 1 && myMatrix[1][1] == 1 && myMatrix[1][2] == 1 || myMatrix[2][0] == 1 && myMatrix[2][1] == 1 && myMatrix[2][2] == 1 || myMatrix[0][0] == 1 && myMatrix[1][0] == 1 && myMatrix[2][0] == 1 || myMatrix[0][1] == 1 && myMatrix[1][1] == 1 && myMatrix[2][1] == 1 || myMatrix[0][2] == 1 && myMatrix[1][2] == 1 && myMatrix[2][2] == 1 || myMatrix[0][0] == 1 && myMatrix[1][1] == 1 && myMatrix[2][2] == 1 ||myMatrix[0][2] == 1 && myMatrix[1][1] == 1 && myMatrix[2][0] == 1){
      X++;
@@ -291,6 +294,11 @@ void game(){
      pole();
         }
    // если результат ничейный
+   else if (myMatrix[0][0] != 0 && myMatrix[0][1] != 0 && myMatrix[0][2] != 0 && myMatrix[1][0] != 0 && myMatrix[1][1] != 0 && myMatrix[1][2] != 0 && myMatrix[2][0] != 0 && myMatrix[2][1] != 0 && myMatrix[2][2] != 0) {
+    // добавить сообщение
+    Nich++;
+    pole();
+    }
 
 }
 
