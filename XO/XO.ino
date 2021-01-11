@@ -3,16 +3,17 @@
 #define M_WIDTH 16    // ширина матрицы
 #define M_HEIGHT 16    // высота матрицы
 #define NUM_LEDS (M_WIDTH * M_HEIGHT) // колличество диодов
-#define BTN1 A3 // кнопка к пину 3
-#define BTN2 4 // кнопка к пину 4
-#define BTN3 5 // кнопка к пину 5
+#define BTN1 A2 // кнопка к пину 3
+#define BTN2 A3 // кнопка к пину 4
+#define BTN3 A4 // кнопка к пину 5
 #define BTN4 A0 // кнопка к пину 6
 #define BTN5 A1 // кнопка к пину 7
 #define BTN6 8 // кнопка к пину 8
 #define BTN7 9 // кнопка к пину 9
 #define BTN8 10 // кнопка к пину 10
 #define BTN9 11 // кнопка к пину 11
-#define BTN10 7 // для сброса игры
+#define BTN10 A5 // для сброса игры
+int value = 50;
 byte myMatrix[][3] = { //нулевая матрица для проверки х  заполняется 1 0 - 2
   {0, 0, 0},
   {0, 0, 0},
@@ -47,7 +48,7 @@ void setup() {
       butt10.setDebounce(50);        // настройка антидребезга (по умолчанию 80 мс)
       Serial.begin(9600);
       matrix.clear();
-      matrix.setBrightness(100);
+      matrix.setBrightness(value);
       pole();// рисуем поле
 }
 
@@ -76,7 +77,12 @@ void loop() {
   butt9.tick();
   butt10.tick();
   OO();
-  game();  
+  game();
+    if (butt10.isDouble()) {                                 // если кнопка была удержана (это для инкремента)
+    value=value+50;                                            // увеличивать/уменьшать переменную value с шагом и интервалом
+                                // для примера выведем в порт
+  }  
+   matrix.setBrightness(value); 
 }
 
 
@@ -250,6 +256,9 @@ void OO(){
         //butt9.setTimeout(15000);
         myMatrix[0][2] = 2;
         //game();
+        }
+    else if (butt10.isSingle()) {
+        pole();
         }
 }
 // игровая логика
