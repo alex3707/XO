@@ -274,10 +274,14 @@ void game(){
      matrix.drawBitmap16(0, 0, polex1vine, 16, 16);
      matrix.show();
      delay(1500);
-     //matrix.clear();
-     //balls();
-     //matrix.show();
-     //delay(2000);
+     matrix.clear();
+     int iii = 0;
+     while(iii < 100){
+     balls();
+     matrix.show();
+     delay(20);
+     iii++;
+     }
      pole();
      }
   else if (myMatrix[0][0] == 2 && myMatrix[0][1] == 2 && myMatrix[0][2] == 2 || myMatrix[1][0] == 2 && myMatrix[1][1] == 2 && myMatrix[1][2] == 2 || myMatrix[2][0] == 2 && myMatrix[2][1] == 2 && myMatrix[2][2] == 2 || myMatrix[0][0] == 2 && myMatrix[1][0] == 2 && myMatrix[2][0] == 2 || myMatrix[0][1] == 2 && myMatrix[1][1] == 2 && myMatrix[2][1] == 2 || myMatrix[0][2] == 2 && myMatrix[1][2] == 2 && myMatrix[2][2] == 2 || myMatrix[0][0] == 2 && myMatrix[1][1] == 2 && myMatrix[2][2] == 2 ||myMatrix[0][2] == 2 && myMatrix[1][1] == 2 && myMatrix[2][0] == 2){
@@ -287,19 +291,73 @@ void game(){
      matrix.drawBitmap16(0, 0, polexovine, 16, 16);
      matrix.show();
      delay(1500);
-     //matrix.clear();
-     //balls();
-     //matrix.show();
-     //delay(2000);
+     matrix.clear();
+     int iii = 0;
+     while(iii < 100){
+     balls();
+     matrix.show();
+     delay(20);
+     iii++;
+     }
      pole();
         }
    // если результат ничейный
    else if (myMatrix[0][0] != 0 && myMatrix[0][1] != 0 && myMatrix[0][2] != 0 && myMatrix[1][0] != 0 && myMatrix[1][1] != 0 && myMatrix[1][2] != 0 && myMatrix[2][0] != 0 && myMatrix[2][1] != 0 && myMatrix[2][2] != 0) {
     // добавить сообщение
     Nich++;
+    delay (400);
+    matrix.clear();
+    matrix.drawBitmap16(0, 0, drow, 16, 16);
+    matrix.show();matrix.show();
+    delay (1500);
     pole();
     }
 
 }
 
 // Эффект для победы
+#include <FastLEDsupport.h>
+#define BALLS_AMOUNT 60
+boolean loadingFlag = true;
+int coord[BALLS_AMOUNT][2];
+int8_t vector[BALLS_AMOUNT][2];
+mData ballColors[BALLS_AMOUNT];
+
+void balls() {
+  if (loadingFlag) {
+    loadingFlag = false;
+    for (byte j = 0; j < BALLS_AMOUNT; j++) {
+      int sign;
+      // забиваем случайными данными
+      coord[j][0] = M_WIDTH / 2 * 10;
+      random8(0, 2) ? sign = 1 : sign = -1;
+      vector[j][0] = random8(4, 15) * sign;
+      coord[j][1] = M_HEIGHT / 2 * 10;
+      random8(0, 2) ? sign = 1 : sign = -1;
+      vector[j][1] = random8(4, 15) * sign;
+      ballColors[j] = mWheel8(random8(0, 9) * 28);
+    }
+  }
+
+  matrix.clear();  // очистить
+
+  // движение шариков
+  for (byte j = 0; j < BALLS_AMOUNT; j++) {
+    for (byte i = 0; i < 2; i++) {
+      coord[j][i] += vector[j][i];
+      if (coord[j][i] < 0) {
+        coord[j][i] = 0;
+        vector[j][i] = -vector[j][i];
+      }
+    }
+    if (coord[j][0] > (M_WIDTH - 1) * 10) {
+      coord[j][0] = (M_WIDTH - 1) * 10;
+      vector[j][0] = -vector[j][0];
+    }
+    if (coord[j][1] > (M_HEIGHT - 1) * 10) {
+      coord[j][1] = (M_HEIGHT - 1) * 10;
+      vector[j][1] = -vector[j][1];
+    }
+    matrix.set(coord[j][0] / 10, coord[j][1] / 10, ballColors[j]);
+  }
+}
